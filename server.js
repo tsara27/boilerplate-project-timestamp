@@ -45,13 +45,13 @@ app.get("/api/:date", function (req, res) {
   if (dateStr.match(dateRegex) != null) {
     let date = new Date(dateStr);
     res.json({
-      unix: Math.floor(date.getTime() / 100000),
+      unix: Math.floor(date.getTime()),
       utc: date.toUTCString()
     });
   } else if (dateStr.match(unixRegex) != null) {
-    let date = new Date(dateStr * 100000);
+    let date = new Date(parseInt(dateStr));
     res.json({
-      unix: dateStr,
+      unix: parseInt(dateStr),
       utc: date.toUTCString()
     });
   } else {
