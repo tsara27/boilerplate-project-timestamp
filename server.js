@@ -30,11 +30,18 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+app.get("/api", function (req, res) {
+  let date = new Date;
+  res.json({
+    unix: Math.floor(date.getTime() / 1000),
+    utc: date.toUTCString()
+  });
+});
+
 app.get("/api/:date", function (req, res) {
   let dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
   let unixRegex = /^\d{13}$/;
   let dateStr = req.params.date;
-    console.log(dateStr);
   if (dateStr.match(dateRegex) != null) {
     let date = new Date(dateStr);
     res.json({
@@ -46,12 +53,6 @@ app.get("/api/:date", function (req, res) {
     res.json({
       unix: dateStr,
       utc: date.toUTCString()
-    });
-  } else if (dateStr == "") {
-    let date = new Date;
-    res.json({
-      unix: Math.floor(date.getTime() / 1000),
-      utc: ate.toUTCString()
     });
   } else {
     res.json({ error: "Invalid Date" });
