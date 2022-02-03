@@ -42,17 +42,17 @@ app.get("/api/:date", function (req, res) {
   let dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
   let unixRegex = /^\d{13}$/;
   let dateStr = req.params.date;
-  if (dateStr.match(dateRegex) != null) {
-    let date = new Date(dateStr);
-    res.json({
-      unix: Math.floor(date.getTime()),
-      utc: date.toUTCString()
-    });
-  } else if (dateStr.match(unixRegex) != null) {
-    let date = new Date(parseInt(dateStr));
+  let parsedDate = (dateStr.match(unixRegex) != null) ? new Date(parseInt(dateStr)) : new Date(dateStr);
+
+  if (dateStr.match(unixRegex) != null) {
     res.json({
       unix: parseInt(dateStr),
-      utc: date.toUTCString()
+      utc: parsedDate.toUTCString()
+    });
+  } else if (parsedDate != "Invalid Date") {
+    res.json({
+      unix: Math.floor(parsedDate.getTime()),
+      utc: parsedDate.toUTCString()
     });
   } else {
     res.json({ error: "Invalid Date" });
