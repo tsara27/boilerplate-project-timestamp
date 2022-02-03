@@ -33,7 +33,7 @@ app.get("/api/hello", function (req, res) {
 app.get("/api", function (req, res) {
   let date = new Date;
   res.json({
-    unix: Math.floor(date.getTime() / 1000),
+    unix: Math.floor(date.getTime()),
     utc: date.toUTCString()
   });
 });
