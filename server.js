@@ -41,8 +41,9 @@ app.get("/api", function (req, res) {
 app.get("/api/:date", function (req, res) {
   let dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
   let unixRegex = /^\d{13}$/;
+  let epochRegex = /^\d{12}$/;
   let dateStr = req.params.date;
-  let parsedDate = (dateStr.match(unixRegex) != null) ? new Date(parseInt(dateStr)) : new Date(dateStr);
+  let parsedDate = (dateStr.match(unixRegex) != null || dateStr.match(epochRegex)) ? new Date(parseInt(dateStr)) : new Date(dateStr);
 
   if (dateStr.match(unixRegex) != null) {
     res.json({
